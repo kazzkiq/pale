@@ -12,7 +12,7 @@
 
 Using Pale is pretty simple. With just few lines you're able to validate form inputs or received values in your backend server.
 
-Pale will always return a Promise upon `.run()` call. If there are any validation errors, it will raise a rejected promise which will require `.catch()` to be handled properly. If there aren't any errors, it will return an object containing only a object with your values (which you can then use to send a request or pass to another part of your applicatioon, for example). Enough talk, lets see some examples!
+Pale will always return a Promise upon `.run()` call. If there are any validation errors, it will raise a rejected promise which will require `.catch()` to be handled properly. If there aren't any errors, it will return an object containing only a object with your values (which you can then use to send a request or pass to another part of your application, for example). Enough talk, lets see some examples!
 
 Micro example:
 
