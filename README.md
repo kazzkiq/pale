@@ -59,7 +59,11 @@ const Pale = require('pale');
 // The returned value is always a boolean
 // true = validation has errors
 // false = no errors found
-Pale.add('youngster', value => value > 30)
+function youngster(value) {
+  return value > 30;
+}
+
+Pale.add('youngster', youngster);
 
 // Accept only people bellow 30yo
 const validation = Pale.validate({
