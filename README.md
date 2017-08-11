@@ -1,10 +1,8 @@
 <p align="center">
   <img src="pale-logo.png" width="412">
+  <br>
+  A dead-simple, fat-free, schema validator.
 </p>
-
-# Pale
-
-Pale is a dead-simple, fat-free, schema validator.
 
 ## Instalation
 
