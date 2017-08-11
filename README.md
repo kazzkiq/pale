@@ -55,11 +55,11 @@ Add a custom validator:
 const Pale = require('pale');
 
 // The returned value is always a boolean
-// true = validation passed
-// false = validation error
-Pale.add('youngster', value => value < 30)
+// true = validation has errors
+// false = no errors found
+Pale.add('youngster', value => value > 30)
 
-// Accept only people bellow 35yo
+// Accept only people bellow 30yo
 const validation = Pale.validate({
   name: ['string min(1)', 'Michael Jackson'],
   age: ['number youngster min(1) max(3)', '77'] // will fail in the 'youngster' validation
