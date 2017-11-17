@@ -1,4 +1,20 @@
-const Pale = (function() {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['exports', 'pale'], factory);
+    } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+        // CommonJS
+        factory(exports, require('pale'));
+    } else {
+        // Browser globals
+        factory((root.commonJsStrict = {}), root.pale);
+    }
+}(typeof self !== 'undefined' ? self : this, function (exports, pale) {
+    // Use b in some fashion.
+
+    // attach properties to the exports object to define
+    // the exported module properties.
+    exports.action = function() {
   /**
    * Represents pure functions that can validate an entry.
    * Those functions always return a boolean
@@ -152,4 +168,5 @@ const Pale = (function() {
       return validators_list;
     }
   }
-})();
+}
+}));
