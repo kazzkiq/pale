@@ -62,7 +62,7 @@
         throw new Error(`Failed to add validator "${name}". This validator (${name}) already exists.`);
       }
     
-      .validators[name] = action;
+      this.validators[name] = action;
     },
 
     /**
