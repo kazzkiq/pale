@@ -11,7 +11,7 @@
         // Browser globals (root is window)
         root.returnExports = factory();
   }
-}(typeof self !== 'undefined' ? self : this, function () {
+}(typeof self !== 'undefined' ? self : this, function() {
    /**
    * Represents pure functions that can validate an entry.
    * Those functions always return a boolean
@@ -70,13 +70,13 @@
      */
     validate(items) {
       const keys = Object.keys(items);
-
+      const selfs = this;
       // If no itens to handle, throw error
       if (keys.length < 1 || !items) {
         throw new Error('There are no items to validade.');
       }
 
-      return { run: this.run.bind(this, items) }
+      return { run: this.run.bind(selfs, items) }
     },
 
     /**
@@ -93,30 +93,38 @@
         const validators_with_error = [];
         let has_errors = false;
         let element;
-        let value;
+        let elements_with_error = [];
+        let values = [];
         
-        Object.keys(items).forEach(key => {
-          const validators = items[key][0];
+          Object.keys(items).forEach(key => {
+            const validators = items[key][0];
+            const localValue = items[key][1];
+            values.push(localValue);
+            this.getValidatorsFromItem(validators).forEach(validator => {
+              element = items[key][2];
+              const validator_failed = this.validators[validator.name](localValue, validator.param);
 
-          this.getValidatorsFromItem(validators).forEach(validator => {
-            value = items[key][1];
-            element = items[key][2];
-            const validator_failed = this.validators[validator.name](value, validator.param);
-
-            // If validator failed
-            if(validator_failed) {
-              has_errors = true;
-              validators_with_error.push(validator.name);
-            }
+              // If validator failed
+              if(validator_failed) {
+                has_errors = true;
+                elements_with_error.push(element);
+                if (validators_with_error[key]) {
+                    validators_with_error[key].push(validator.name);
+                } else {
+                    validators_with_error[key] = [validator.name];
+                }
+              }
+            });
           });
-        });
+        // });
 
         if (has_errors) {
           reject({
             failed_validators: validators_with_error,
-            element: element || null,
-            value: value
+            elements: element || null,
+            value: values
           });
+          validators_with_error = [];
         } else {
           const final_items = [];
           const keys = Object.keys(items);
@@ -141,7 +149,6 @@
      */
     getValidatorsFromItem(item_validators) {
       const validators_list = [];
-
       item_validators.split(' ').forEach(validator => {
         const validator_name = /(\w{1,})/g.exec(validator)[1];
         const validator_params = /\((\w{1,})\)/g.exec(validator);
@@ -164,5 +171,5 @@
 
       return validators_list;
     }
-  };
+  }
 }));
