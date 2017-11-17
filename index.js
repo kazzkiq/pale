@@ -121,8 +121,8 @@
         if (has_errors) {
           reject({
             failed_validators: validators_with_error,
-            elements: element || null,
-            value: values
+            elements: elements_with_error,
+            values: values
           });
           validators_with_error = [];
         } else {
