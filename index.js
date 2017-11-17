@@ -1,17 +1,20 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([], factory);
-    } else if (typeof module === 'object' && module.exports) {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like environments that support module.exports,
-        // like Node.
-        module.exports = factory();
+        define(['exports', 'b'], factory);
+    } else if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
+        // CommonJS
+        factory(exports, require('b'));
     } else {
-        // Browser globals (root is window)
-        root.returnExports = factory();
-  }
-}(typeof self !== 'undefined' ? self : this, function () {
+        // Browser globals
+        factory((root.commonJsStrict = {}), root.b);
+    }
+}(typeof self !== 'undefined' ? self : this, function (exports, b) {
+    // Use b in some fashion.
+
+    // attach properties to the exports object to define
+    // the exported module properties.
+    exports.action = function () {
    /**
    * Represents pure functions that can validate an entry.
    * Those functions always return a boolean
@@ -165,4 +168,5 @@
       return validators_list;
     }
   }
+};
 }));
