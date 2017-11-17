@@ -126,13 +126,11 @@
           });
           validators_with_error = [];
         } else {
-          const final_items = [];
+          const final_items = {};
           const keys = Object.keys(items);
 
-          keys.forEach((key, i) => {
-            let obj = {};
-            obj[key] = items[key][1];
-            final_items.push(obj);
+          keys.forEach((key) => {
+            final_items[key] = items[key][1];
           });
 
           resolve(final_items);
