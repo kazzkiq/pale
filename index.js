@@ -58,11 +58,11 @@
      */
     add(name, action) {
       // If validator name already in use, throw error
-      if (Pale.validators[name]) {
+      if (this.validators[name]) {
         throw new Error(`Failed to add validator "${name}". This validator (${name}) already exists.`);
       }
     
-      Pale.validators[name] = action;
+      .validators[name] = action;
     },
 
     /**
@@ -79,7 +79,7 @@
         throw new Error('There are no items to validade.');
       }
 
-      return { run: Pale.run.bind(this, items) }
+      return { run: this.run.bind(this, items) }
     },
 
     /**
@@ -101,10 +101,10 @@
         Object.keys(items).forEach(key => {
           const validators = items[key][0];
 
-          Pale.getValidatorsFromItem(validators).forEach(validator => {
+          this.getValidatorsFromItem(validators).forEach(validator => {
             value = items[key][1];
             element = items[key][2];
-            const validator_failed = Pale.validators[validator.name](value, validator.param);
+            const validator_failed = this.validators[validator.name](value, validator.param);
 
             // If validator failed
             if(validator_failed) {
