@@ -165,5 +165,4 @@
       return validators_list;
     }
   }
-};
 }));
