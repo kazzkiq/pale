@@ -12,8 +12,8 @@
     "build": "rollup -c",
     "dev": "serve build & rollup -c -w",
     "start": "serve public",
-    "pretest": "npm run build",
-    "test": "wdio test/wdio.conf.js",
+    "pretestOnly": "npm run build",
+    "test": "mocha 'test/unit/*.spec.js'",
     "prepublishOnly": "npm install && npm run build"
   },
   "devDependencies": {
