@@ -68,7 +68,7 @@ describe('Testing Validators', () => {
 
 describe('Pale methods testing', () => {
   it('Should be a function', () => {
-    expect(!!Pale).to.be.true;
+    expect({}.toString.call(Pale) === '[object Function]').to.be.true;
   });
 
   it('.run() should return Promise', () => {
