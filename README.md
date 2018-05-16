@@ -3,79 +3,68 @@
 <p align="center">
   <img src="pale-logo.png" width="412">
   <br>
-  A dead-simple, fat-free, schema validator.
+  Pale: A dead-simple schema validator.
 </p>
 
 ## Instalation
 
-*TODO: UMD...*
+You can install Pale via **npm**:
+
+```
+npm install --save pale
+```
+
+Or use it directly in browser via cdn service:
+
+```
+https://unpkg.com/pale/build/pale.min.js
+```
 
 ## Usage
 
-Using Pale is pretty simple. With just few lines you're able to validate form inputs or received values in your backend server.
-
-Pale will always return a Promise upon `.run()` call. If there are any validation errors, it will raise a rejected promise which will require `.catch()` to be handled properly. If there aren't any errors, it will return an object containing only a object with your values (which you can then use to send a request or pass to another part of your application, for example). Enough talk, lets see some examples!
-
-Micro example:
-
 ```js
-const Pale = require('pale');
+import Pale from 'pale';
 
-const validation = Pale.validate({
-  name: ['string min(1)', 'Michael Jackson'],
-  age: ['number min(1) max(3)', '33']
+const check = new Pale({
+  name: ['string minLength(2)', 'John Doe'],
+  age: ['number minLength(1) maxLength(3)', '35']
 });
 
-validation.run()
-  .then(console.log)     // {name: 'Michael Jackson', age: '33'}
-  .catch(console.log);    // {failed_validators: [string, ...], element: HTMLElement | null, value: string}
+check.run()
+  .then(console.log)   // Object with input data
+  .catch(console.log); // Object showing which validator failed
 ```
 
-HTMLElement handling:
+### Adding a new validator
 
 ```js
-const Pale = require('pale');
-
-const nameInput = document.getElementById('name');
-const ageInput = document.getElementById('age');
-
-const validation = Pale.validate({
-  name: ['string min(1)', nameInput.value, nameInput],
-  age: ['number min(1) max(3)', ageInput.value, ageInput]
-});
-
-validation.run()
-  .then(console.log)
-  .catch((errorItem) => {
-    // Paint the input with error in red color
-    errorItem.style.border = '1px solid red';
-    errorItem.style.background = 'rgba(255, 0, 0, 0.1)';
-  });
-```
-
-Add a custom validator:
-
-```js
-const Pale = require('pale');
-
-// The returned value is always a boolean
-// true = validation has errors
-// false = no errors found
-function youngster(value) {
-  return value > 30;
+function boolean(value) {
+  if (['true', 'false', true, false].includes(value)) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
-Pale.add('youngster', youngster);
+Pale.addValidator(boolean);
 
-// Accept only people bellow 30yo
-const validation = Pale.validate({
-  name: ['string min(1)', 'Michael Jackson'],
-  age: ['number youngster min(1) max(3)', '77'] // will fail in the 'youngster' validation
+const check = new Pale({
+  acceptedTerms: ['boolean', true]
 });
 
-validation.run()
-  .then(console.log)
-  .catch(console.log);
+// ...
 ```
 
+### Get all available validators
 
+```js
+Object.keys(Pale.validators);
+// Outputs by default:
+// ['string', 'number', 'min', 'max', 'minLength', 'maxLength']
+```
+
+# Credits & Thanks
+
+By [@Kazzkiq](https://twitter.com/kazzkiq)
+
+Pale was made possible by awesome open-source projects such as [Rollup](https://github.com/rollup/rollup).
