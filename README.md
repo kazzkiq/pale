@@ -38,6 +38,12 @@ check.run()
 ### Adding a new validator
 
 ```js
+import Pale from 'pale';
+
+const check = new Pale({
+  acceptedTerms: ['boolean', true]
+});
+
 function boolean(value) {
   if (['true', 'false', true, false].includes(value)) {
     return true;
@@ -46,11 +52,9 @@ function boolean(value) {
   }
 }
 
-Pale.addValidator(boolean);
+check.addValidator(boolean);
 
-const check = new Pale({
-  acceptedTerms: ['boolean', true]
-});
+check.run();
 
 // ...
 ```
@@ -58,7 +62,13 @@ const check = new Pale({
 ### Get all available validators
 
 ```js
-Object.keys(Pale.validators);
+import Pale from 'pale';
+
+const check = new Pale({
+  acceptedTerms: ['boolean', true]
+});
+
+Object.keys(check.validators);
 // Outputs by default:
 // ['string', 'number', 'min', 'max', 'minLength', 'maxLength']
 ```
