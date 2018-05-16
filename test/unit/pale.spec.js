@@ -1,7 +1,7 @@
 require("reify");
 const mocha = require('mocha');
 const expect = require('chai').expect;
-const Pale = require('../../build/pale.min.js');
+const Pale = require('../../build/pale.min');
 const { validators } = require('../../src/validators');
 
 describe('Testing Validators', () => {
@@ -68,6 +68,7 @@ describe('Testing Validators', () => {
 
 describe('Pale methods testing', () => {
   it('Should be a function', () => {
+    console.log(Pale);
     expect({}.toString.call(Pale) === '[object Function]').to.be.true;
   });
 
@@ -94,12 +95,12 @@ describe('Pale methods testing', () => {
   });
 
   it('.run() should work upon new validator usage', async () => {
-    const v = new Pale({ name: ['number ageMin(10)', '11'] });
-    v.addValidator(function ageMin(value, min) {
+    Pale.addValidator(function ageMin(value, min) {
       if (isNaN(+value)) return false;
       if (isNaN(+size)) return false;
       return +value <= +min;
     });
+    const v = new Pale({ name: ['number ageMin(10)', '11'] });
     let status = false;
 
     try {
